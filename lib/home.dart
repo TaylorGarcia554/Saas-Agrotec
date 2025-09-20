@@ -417,7 +417,7 @@ class _HomeState extends State<Home> {
                         ),
 
                         // Aqui entra sua tabela
-                        AnalysisTable(analyses: analyses),
+                        AnaliseTable(analyses: analyses),
 
                         const SizedBox(height: 24),
                       ],
