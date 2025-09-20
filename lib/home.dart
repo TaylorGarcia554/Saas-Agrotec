@@ -126,7 +126,7 @@ class _HomeState extends State<Home> {
         );
         pdfDoc.dispose();
 
-        final analyses = calculos.processTextLines(text);
+        final analyses = calculos.processTextLines(text, fileName);
 
         setState(() {
           analysesPorArquivo[fileName] = analyses;
@@ -150,7 +150,7 @@ class _HomeState extends State<Home> {
         context,
         'Erro ao analisar os PDFs.',
         type: MessageType.error,
-      ); 
+      );
     } finally {
       setState(() => isAnalyzing = false);
     }

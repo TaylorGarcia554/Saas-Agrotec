@@ -16,12 +16,15 @@ class AnalisesDB {
   }
 
   Future<Database> _initDB() async {
-    final dbPath = await getDatabasesPath();
-    return openDatabase(
+    final dbPath = await databaseFactory
+        .getDatabasesPath(); // <- usa a factory atual
+    return await databaseFactory.openDatabase(
+      // <- usa a factory atual
       join(dbPath, 'analises.db'),
-      version: 1,
-      onCreate: (db, version) async {
-        await db.execute('''
+      options: OpenDatabaseOptions(
+        version: 1,
+        onCreate: (db, version) async {
+          await db.execute('''
           CREATE TABLE analises(
             id INTEGER PRIMARY KEY AUTOINCREMENT, 
             ctc REAL, 
@@ -32,7 +35,8 @@ class AnalisesDB {
             create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
           )
         ''');
-      },
+        },
+      ),
     );
   }
 
@@ -45,17 +49,13 @@ class AnalisesDB {
     required String nome,
   }) async {
     final db = await database;
-    await db.insert(
-      'analises',
-      {
-        'ctc': ctc,
-        'v': v,
-        'resultado': resultado,
-        'kctc': kctc,
-        'nome': nome,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    await db.insert('analises', {
+      'ctc': ctc,
+      'v': v,
+      'resultado': resultado,
+      'kctc': kctc,
+      'nome': nome,
+    }, conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   // Buscar análises ordenadas
