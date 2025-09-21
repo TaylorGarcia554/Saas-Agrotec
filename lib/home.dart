@@ -4,6 +4,7 @@ import 'package:agrotec/components/detalhes.dart';
 import 'package:agrotec/components/showMessager.dart';
 import 'package:agrotec/utils/analyses.dart';
 import 'package:agrotec/utils/calculos.dart';
+import 'package:agrotec/utils/cor.dart';
 import 'package:agrotec/utils/salvarPDF.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -18,14 +19,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // String? selectedFileName;
-  // String? selectedFilePath;
-  // bool isAnalyzing = false;
-
-  // List<Analysis> analyses = [];
-  // List extractedText = [];
-
-  // final Calculos calculos = Calculos();
 
   List<String> selectedFileNames = [];
   List<String> selectedFilePaths = [];
@@ -37,23 +30,6 @@ class _HomeState extends State<Home> {
 
   final Calculos calculos = Calculos();
 
-  // Future<void> handleFileSelect() async {
-  //   final result = await FilePicker.platform.pickFiles(
-  //     type: FileType.custom,
-  //     allowedExtensions: ['pdf'],
-  //   );
-
-  //   if (result != null &&
-  //       result.files.isNotEmpty &&
-  //       result.files.single.path != null) {
-  //     setState(() {
-  //       selectedFileName = result.files.single.name;
-  //       selectedFilePath = result.files.single.path!;
-  //     });
-  //   } else {
-  //     print('Nenhum arquivo selecionado ou path é nulo');
-  //   }
-  // }
   Future<void> handleFileSelect() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -76,40 +52,6 @@ class _HomeState extends State<Home> {
       print('Nenhum arquivo selecionado');
     }
   }
-
-  // 2️⃣ Analisar PDF (chamada ao apertar botão)
-  // Future<void> analyzeSelectedPdf() async {
-  //   if (selectedFilePath == null) return;
-
-  //   setState(() => isAnalyzing = true);
-
-  //   try {
-  //     final pdfBytes = await File(selectedFilePath!).readAsBytes();
-  //     final pdfDoc = PdfDocument(inputBytes: pdfBytes);
-  //     final extractor = PdfTextExtractor(pdfDoc);
-  //     final text = extractor.extractTextLines(
-  //       startPageIndex: 0,
-  //       endPageIndex: pdfDoc.pages.count - 1,
-  //     );
-  //     pdfDoc.dispose();
-
-  //     setState(() {
-  //       // Aqui você processa o texto e transforma em results
-  //       analyses = calculos.processTextLines(text);
-  //     });
-
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text('Análise concluída com sucesso!')),
-  //     );
-  //   } catch (e) {
-  //     print("Erro ao analisar PDF: $e");
-  //     ScaffoldMessenger.of(
-  //       context,
-  //     ).showSnackBar(const SnackBar(content: Text('Erro ao analisar o PDF.')));
-  //   } finally {
-  //     setState(() => isAnalyzing = false);
-  //   }
-  // }
 
   Future<void> analyzeSelectedPdfs() async {
     if (selectedFilePaths.isEmpty) return;
@@ -185,9 +127,10 @@ class _HomeState extends State<Home> {
         width: double.infinity,
         height: double.infinity,
         padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xff8f5c30), Color(0xFFE9ECEF)],
+            // colors: [Color(0xff8f5c30), Color(0xFFE9ECEF)],
+            colors: [Cor.verdeForte, Cor.brancoVerde],
             stops: [0.001, 0.16],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -252,10 +195,11 @@ class _HomeState extends State<Home> {
                       if (selectedFileNames.isEmpty) ...[
                         Row(
                           children: [
-                            const Icon(
+                             Icon(
                               Icons.upload_file,
                               size: 64,
-                              color: Color(0xff38291a),
+                              // color: Color(0xff38291a),
+                              color: Cor.verdeClaro,
                             ),
                             const SizedBox(height: 16),
 
@@ -285,8 +229,9 @@ class _HomeState extends State<Home> {
                         // ),
                         Container(
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xff8f5c30), Color(0xffdba85e)],
+                            gradient: LinearGradient(
+                              // colors: [Color(0xff8f5c30), Color(0xffdba85e)],
+                              colors: [Cor.verdeForte, Cor.verdeCinza],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),

@@ -1,4 +1,5 @@
 import 'package:agrotec/utils/analyses.dart';
+import 'package:agrotec/utils/cor.dart';
 import 'package:flutter/material.dart';
 
 class ManualAnalysisScreen extends StatefulWidget {
@@ -109,8 +110,8 @@ class _ManualAnalysisScreenState extends State<ManualAnalysisScreen> {
                     enabled: _fileName == null, // só pode editar uma vez
                     decoration: InputDecoration(
                       labelText: "Nome do arquivo",
-                      labelStyle: const TextStyle(
-                        color: Color(0xff38291a),
+                      labelStyle: TextStyle(
+                        color: Cor.verdeForte,
                         fontWeight: FontWeight.w500,
                       ),
                       filled: true,
@@ -121,15 +122,15 @@ class _ManualAnalysisScreenState extends State<ManualAnalysisScreen> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xffdba85e),
+                        borderSide: BorderSide(
+                          color: Cor.verdeForte,
                           width: 1.2,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xff8f5c30),
+                        borderSide: BorderSide(
+                          color: Cor.verdeForte,
                           width: 1.8,
                         ),
                       ),
@@ -143,8 +144,8 @@ class _ManualAnalysisScreenState extends State<ManualAnalysisScreen> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: "CTC (T)",
-                      labelStyle: const TextStyle(
-                        color: Color(0xff38291a),
+                      labelStyle:  TextStyle(
+                        color: Cor.verdeForte,
                         fontWeight: FontWeight.w500,
                       ),
                       filled: true,
@@ -155,15 +156,16 @@ class _ManualAnalysisScreenState extends State<ManualAnalysisScreen> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xffdba85e),
+                        borderSide: BorderSide(
+                          color: Cor.verdeForte,
                           width: 1.2,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xff8f5c30),
+                        borderSide: BorderSide(
+                          // color: Color(0xff8f5c30),
+                          color: Cor.verdeForte,
                           width: 1.8,
                         ),
                       ),
@@ -177,8 +179,8 @@ class _ManualAnalysisScreenState extends State<ManualAnalysisScreen> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: "V %",
-                      labelStyle: const TextStyle(
-                        color: Color(0xff38291a),
+                      labelStyle: TextStyle(
+                        color: Cor.verdeForte,
                         fontWeight: FontWeight.w500,
                       ),
                       filled: true,
@@ -189,15 +191,15 @@ class _ManualAnalysisScreenState extends State<ManualAnalysisScreen> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xffdba85e),
+                        borderSide:  BorderSide(
+                          color: Cor.verdeForte,
                           width: 1.2,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xff8f5c30),
+                        borderSide:  BorderSide(
+                          color: Cor.verdeForte,
                           width: 1.8,
                         ),
                       ),
@@ -211,8 +213,8 @@ class _ManualAnalysisScreenState extends State<ManualAnalysisScreen> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: "K CTC",
-                      labelStyle: const TextStyle(
-                        color: Color(0xff38291a),
+                      labelStyle: TextStyle(
+                        color: Cor.verdeForte,
                         fontWeight: FontWeight.w500,
                       ),
                       filled: true,
@@ -223,15 +225,15 @@ class _ManualAnalysisScreenState extends State<ManualAnalysisScreen> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xffdba85e),
+                        borderSide:  BorderSide(
+                          color: Cor.verdeForte,
                           width: 1.2,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xff8f5c30),
+                        borderSide: BorderSide(
+                          color: Cor.verdeForte,
                           width: 1.8,
                         ),
                       ),
@@ -241,8 +243,9 @@ class _ManualAnalysisScreenState extends State<ManualAnalysisScreen> {
                 const SizedBox(width: 12),
                 Container(
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xff8f5c30), Color(0xffdba85e)],
+                    gradient: LinearGradient(
+                      // colors: [Color(0xff8f5c30), Color(0xffdba85e)],
+                      colors: [Cor.verdeForte, Cor.verdeCinza],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),

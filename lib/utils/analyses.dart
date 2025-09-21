@@ -1,3 +1,4 @@
+import 'package:agrotec/utils/cor.dart';
 import 'package:flutter/material.dart';
 
 class Analysis {
@@ -119,8 +120,9 @@ class _AnaliseTableState extends State<AnaliseTable> {
           alignment: Alignment.centerRight,
           child: Container(
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xff8f5c30), Color(0xffdba85e)],
+              gradient: LinearGradient(
+                // colors: [Color(0xff8f5c30), Color(0xffdba85e)],
+                colors: [Cor.verdeForte, Cor.verdeCinza],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),

@@ -1,6 +1,7 @@
 import 'package:agrotec/analiseManual.dart';
 import 'package:agrotec/historico.dart';
 import 'package:agrotec/home.dart';
+import 'package:agrotec/utils/cor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
@@ -30,14 +31,15 @@ class _MenuhomeState extends ConsumerState<Menuhome> {
       child: Container(
         decoration: BoxDecoration(
           color: selectedIndex == index
-              ? Color(0xff8f5c30)
+              // ? Color(0xff8f5c30)
+              ? Cor.verdeForte
               : Colors.transparent,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Row(
             children: [
-              Center(child: Icon(icon, color: Colors.white)),
+              Center(child: Icon(icon, color: Colors.black)),
               SizedBox(width: temTitulo ? 0 : 10),
               Expanded(
                 child: AnimatedContainer(
@@ -50,7 +52,7 @@ class _MenuhomeState extends ConsumerState<Menuhome> {
                     child: Text(
                       "  ${title!}",
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 16,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w500,
@@ -93,7 +95,8 @@ class _MenuhomeState extends ConsumerState<Menuhome> {
     final bool tamanhoTela = size.width < 1000;
 
     return Scaffold(
-      backgroundColor: Color(0xff8f5c30),
+      // backgroundColor: Color(0xff8f5c30),
+      backgroundColor: Cor.verdeClaro,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70), // aumenta a altura do AppBar
         child: AppBar(
@@ -131,7 +134,8 @@ class _MenuhomeState extends ConsumerState<Menuhome> {
               ),
             ),
           ),
-          backgroundColor: Color(0xff8f5c30),
+          // backgroundColor: Color(0xff8f5c30),
+          backgroundColor: Cor.verdeForte,
           elevation: 10,
           shadowColor: Colors.black,
         ),
@@ -146,7 +150,8 @@ class _MenuhomeState extends ConsumerState<Menuhome> {
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.easeInOut,
                 width: tamanhoTela ? 66 : 180, // alterna entre estreito e largo
-                color: Color(0xff38291a),
+                // color: Color(0xff38291a),
+                color: Cor.verdeAgua,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
