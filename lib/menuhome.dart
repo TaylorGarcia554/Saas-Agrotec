@@ -1,3 +1,4 @@
+import 'package:agrotec/historico.dart';
 import 'package:agrotec/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -155,7 +156,7 @@ class _MenuhomeState extends ConsumerState<Menuhome> {
           Expanded(
               child: switch (_selectedIndex) {
             0 => const Home(),
-            // 1 => const (),
+            1 => const Historico(),
             _ => const Home()
           }),
         ],

@@ -105,13 +105,13 @@ class Calculos {
         // AnalysisCard(id: j, t: ctc, v: v, resultado: result, kct: kctcStr),
       );
 
-      AnalisesDB().salvarAnalise(
-        ctc: ctc,
-        v: v,
-        resultado: result,
-        kctc: kctcStr,
-        nome: 'Análise $fileName',
-      );
+      // AnalisesDB().salvarAnalise(
+      //   ctc: ctc,
+      //   v: v,
+      //   resultado: result,
+      //   kctc: kctcStr,
+      //   nome: 'Análise $fileName',
+      // );
     }
 
     return resultList;
@@ -157,13 +157,13 @@ class Calculos {
             ),
           );
 
-          AnalisesDB().salvarAnalise(
-            ctc: t,
-            v: v,
-            resultado: result,
-            kctc: classifyKCTC(k),
-            nome: 'Análise $fileName',
-          );
+          // AnalisesDB().salvarAnalise(
+          //   ctc: t,
+          //   v: v,
+          //   resultado: result,
+          //   kctc: classifyKCTC(k),
+          //   nome: 'Análise $fileName',
+          // );
 
           currentSample.clear();
         }

@@ -8,6 +8,7 @@ import 'package:agrotec/utils/salvarPDF.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart'; // Para ler PDF
+import 'package:path/path.dart' as p;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -62,7 +63,10 @@ class _HomeState extends State<Home> {
 
     if (result != null && result.files.isNotEmpty) {
       setState(() {
-        selectedFileNames = result.files.map((f) => f.name).toList();
+        // selectedFileNames = result.files.map((f) => f.name).toList();
+        selectedFileNames = result.files
+          .map((f) => p.basenameWithoutExtension(f.name)) // 👈 só o nome
+          .toList();
         selectedFilePaths = result.files
             .where((f) => f.path != null)
             .map((f) => f.path!)

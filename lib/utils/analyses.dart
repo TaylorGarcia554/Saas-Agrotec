@@ -19,6 +19,28 @@ class Analysis {
     this.valorDigitado,
     this.resultadoPersonalizado,
   });
+
+  // Construtor para criar a partir do banco
+  factory Analysis.fromMap(Map<String, dynamic> map) {
+    return Analysis(
+      id: map['id'] as int,
+      ctc: (map['ctc'] as num).toDouble(),
+      potassio: (map['potassio'] as num).toDouble(),
+      result: (map['resultado'] as num).toDouble(),
+      kctc: map['kctc'] as String,
+    );
+  }
+
+  // Para salvar no banco novamente
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'ctc': ctc,
+      'potassio': potassio,
+      'resultado': result,
+      'kctc': kctc,
+    };
+  }
 }
 
 class AnaliseTable extends StatefulWidget {
