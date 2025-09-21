@@ -5,10 +5,11 @@ class Analysis {
   final double ctc;
   final double potassio;
   final double result;
-  final String kctc;
+  String kctc;
 
   double? valorDigitado;
   double? resultadoPersonalizado;
+  String? nomeArquivo;
 
   Analysis({
     required this.id,
@@ -18,6 +19,7 @@ class Analysis {
     required this.kctc,
     this.valorDigitado,
     this.resultadoPersonalizado,
+    this.nomeArquivo,
   });
 
   // Construtor para criar a partir do banco
@@ -64,6 +66,15 @@ class _AnaliseTableState extends State<AnaliseTable> {
   }
 
   @override
+  void didUpdateWidget(covariant AnaliseTable oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    for (int i = 0; i < widget.analyses.length; i++) {
+      controllers[i] ??= TextEditingController();
+    }
+  }
+
+  @override
   void dispose() {
     for (var c in controllers.values) {
       c.dispose();
@@ -99,20 +110,46 @@ class _AnaliseTableState extends State<AnaliseTable> {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController _scrollController = ScrollController();
+
     return Column(
       children: [
         // Botão Editar/Salvar
         Align(
           alignment: Alignment.centerRight,
-          child: ElevatedButton(
-            onPressed: () {
-              if (editMode) {
-                _salvarValores();
-              } else {
-                setState(() => editMode = true);
-              }
-            },
-            child: Text(editMode ? "Salvar" : "Editar"),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xff8f5c30), Color(0xffdba85e)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: ElevatedButton(
+              onPressed: () {
+                if (editMode) {
+                  _salvarValores();
+                } else {
+                  setState(() => editMode = true);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text(
+                editMode ? "Salvar" : "Editar",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           ),
         ),
 
@@ -131,75 +168,120 @@ class _AnaliseTableState extends State<AnaliseTable> {
               ),
             ],
           ),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              headingRowColor: MaterialStateProperty.resolveWith(
-                (_) => Colors.grey.shade200,
-              ),
-              dividerThickness: 0.5,
-              columns: const [
-                DataColumn(label: Text('Análise')),
-                DataColumn(label: Text('CTC (T)')),
-                DataColumn(label: Text('V %')),
-                DataColumn(label: Text('Resultado (t/ha)')),
-                DataColumn(label: Text('K/CTC')),
-                DataColumn(label: Text('Manual')), // coluna editável
-                DataColumn(
-                  label: Text('Dose por Planta (g/ha)'),
-                ), // resultado calculado
-              ],
-              rows: List<DataRow>.generate(widget.analyses.length, (index) {
-                final a = widget.analyses[index];
-                return DataRow(
-                  cells: [
-                    DataCell(Text('#${index + 1}')),
-                    DataCell(Text(a.ctc.toStringAsFixed(2))),
-                    DataCell(Text(a.potassio.toStringAsFixed(2))),
-                    DataCell(
-                      Text(
-                        a.result.toStringAsFixed(3),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: _resultColor(a.result),
+          child: Scrollbar(
+            controller: _scrollController,
+            thumbVisibility: true,
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                headingRowColor: WidgetStateProperty.resolveWith(
+                  (_) => Colors.grey.shade200,
+                ),
+                dividerThickness: 0.5,
+                columns: const [
+                  DataColumn(label: Text('Análise')),
+                  DataColumn(label: Text('CTC (T)')),
+                  DataColumn(label: Text('V %')),
+                  DataColumn(label: Text('Resultado (t/ha)')),
+                  DataColumn(label: Text('K/CTC')),
+                  DataColumn(label: Text('Manual')), // coluna editável
+                  DataColumn(
+                    label: Text('Dose por Planta (g/ha)'),
+                  ), // resultado calculado
+                ],
+                rows: List<DataRow>.generate(widget.analyses.length, (index) {
+                  final a = widget.analyses[index];
+                  return DataRow(
+                    cells: [
+                      DataCell(Text('#${index + 1}')),
+                      DataCell(Text(a.ctc.toStringAsFixed(2))),
+                      DataCell(Text(a.potassio.toStringAsFixed(2))),
+                      DataCell(
+                        Text(
+                          a.result.toStringAsFixed(3),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: _resultColor(a.result),
+                          ),
                         ),
                       ),
-                    ),
-                    DataCell(Text(a.kctc)),
-                    DataCell(
-                      editMode
-                          ? SizedBox(
-                              width: 80,
-                              child: TextField(
-                                controller: controllers[index],
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  hintText: "Digite...",
+                      // DataCell(Text(a.kctc)),
+                      DataCell(
+                        editMode
+                            ? SizedBox(
+                                width: 100, // largura fixa pra ficar bonitinho
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  value: a.kctc, // valor atual selecionado
+                                  items:
+                                      [
+                                            '1.00.1',
+                                            '1.5.0',
+                                            '2.00.1',
+                                            '3.00.1',
+                                          ] // coloque os valores que quiser
+                                          .map(
+                                            (e) => DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e),
+                                            ),
+                                          )
+                                          .toList(),
+                                  onChanged: (val) {
+                                    if (val != null) {
+                                      setState(() {
+                                        a.kctc =
+                                            val; // atualiza o valor da análise
+                                      });
+                                    }
+                                  },
                                 ),
+                              )
+                            : Text(a.kctc), // modo normal
+                      ),
+                      DataCell(
+                        editMode
+                            ? SizedBox(
+                                width: 80,
+                                child: TextField(
+                                  controller: controllers[index],
+                                  keyboardType: TextInputType.number,
+                                  decoration: const InputDecoration(
+                                    hintText: "Digite...",
+                                  ),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      a.valorDigitado = double.tryParse(
+                                        val.replaceAll(',', '.'),
+                                      );
+                                    }); // atualiza o estado
+                                  },
+                                ),
+                              )
+                            : Text(
+                                controllers[index]?.text.isEmpty ?? true
+                                    ? "-"
+                                    : controllers[index]!.text,
                               ),
-                            )
-                          : Text(
-                              controllers[index]!.text.isEmpty
-                                  ? "-"
-                                  : controllers[index]!.text,
-                            ),
-                    ),
-                    DataCell(
-                      Text(
-                        a.resultadoPersonalizado != null
-                            ? "${a.resultadoPersonalizado!.toStringAsFixed(2)} g/ha"
-                            : '-',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: a.resultadoPersonalizado != null
-                              ? Colors.blue
-                              : Colors.grey,
+                      ),
+                      DataCell(
+                        Text(
+                          a.resultadoPersonalizado != null
+                              ? "${a.resultadoPersonalizado!.toStringAsFixed(2)} g/ha"
+                              : '-',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: a.resultadoPersonalizado != null
+                                ? Colors.blue
+                                : Colors.grey,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              }),
+                    ],
+                  );
+                }),
+              ),
             ),
           ),
         ),

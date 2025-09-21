@@ -16,7 +16,7 @@ class Calculos {
 
     for (var line in lines) {
       final text = line.text.trim();
-      print("Processando linha: $text");
+      // print("Processando linha: $text");
 
       // ---- CTC ----
       if ((text.contains('CTC (T)') ||
@@ -44,12 +44,13 @@ class Calculos {
 
       // ---- K/CTC ----
       for (final texts in text.split(RegExp(r'\s{2,}'))) {
+        // print(texts);
         // Caso 1: o normal (% K na C.T.C.)
         if (texts.contains('(% K na C.T.C.)')) {
-          final nums = extractNumbers(text);
+          final nums = extractNumbers(texts); // use a mesma variável!
           if (nums.isNotEmpty) {
-            kctcValues.add(nums.first);
-            // print("K encontrado (modo normal): ${nums.first} | Linha: $texts");
+            kctcValues.addAll(nums);
+            print("K encontrado (todos): $nums | Linha: $texts");
           }
         }
         // Caso 2: encontrou o cabeçalho "Ca Mg K ..."
@@ -99,6 +100,8 @@ class Calculos {
       double result = (v < 60) ? (60 - v) * ctc / 100 : (v - 60) * ctc / 100;
 
       String kctcStr = classifyKCTC(k);
+
+      print("Amostra: T=$ctc, V=$v, K=$k");
 
       resultList.add(
         Analysis(id: j, ctc: ctc, potassio: v, result: result, kctc: kctcStr),

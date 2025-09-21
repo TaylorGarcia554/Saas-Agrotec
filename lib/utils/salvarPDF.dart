@@ -1,13 +1,18 @@
 import 'dart:io';
+import 'package:agrotec/components/showMessager.dart';
 import 'package:agrotec/utils/analyses.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-
 class BaixarPDF {
   // Função para gerar PDF
-  Future<void> gerarPDF(List<Analysis> analyses, String namePDF) async {
+  Future<void> gerarPDF(
+    List<Analysis> analyses,
+    String namePDF,
+    BuildContext context,
+  ) async {
     // Cria um documento PDF
     final pdf = pw.Document();
 
@@ -25,7 +30,7 @@ class BaixarPDF {
               pw.Container(
                 width: double.infinity,
                 height: double.infinity,
-                 // cor de fundo da "folha"
+                // cor de fundo da "folha"
               ),
 
               // Conteúdo principal
@@ -42,6 +47,16 @@ class BaixarPDF {
                     ),
                   ),
                   pw.SizedBox(height: 16),
+
+                  pw.SizedBox(height: 24),
+                  pw.Text(
+                    namePDF, // variável com o nome do PDF
+                    style: pw.TextStyle(
+                      fontSize: 14,
+                      fontWeight: pw.FontWeight.bold,
+                      color: PdfColors.grey700,
+                    ),
+                  ),
 
                   // Tabela
                   pw.Container(
@@ -73,6 +88,8 @@ class BaixarPDF {
                         2: pw.FlexColumnWidth(1), // V%
                         3: pw.FlexColumnWidth(1), // Resultado
                         4: pw.FlexColumnWidth(1), // K/CTC
+                        5: pw.FlexColumnWidth(1), // Personalizado
+                        6: pw.FlexColumnWidth(1), // Valor Digitado
                       },
                       children: [
                         // Cabeçalho da tabela
@@ -82,7 +99,7 @@ class BaixarPDF {
                           ),
                           children: [
                             pw.Padding(
-                              padding: const pw.EdgeInsets.all(8),
+                              padding: const pw.EdgeInsets.all(7),
                               child: pw.Text(
                                 'Análise',
                                 style: pw.TextStyle(
@@ -91,7 +108,7 @@ class BaixarPDF {
                               ),
                             ),
                             pw.Padding(
-                              padding: const pw.EdgeInsets.all(8),
+                              padding: const pw.EdgeInsets.all(7),
                               child: pw.Text(
                                 'CTC (T)',
                                 style: pw.TextStyle(
@@ -100,7 +117,7 @@ class BaixarPDF {
                               ),
                             ),
                             pw.Padding(
-                              padding: const pw.EdgeInsets.all(8),
+                              padding: const pw.EdgeInsets.all(7),
                               child: pw.Text(
                                 'V %',
                                 style: pw.TextStyle(
@@ -109,7 +126,7 @@ class BaixarPDF {
                               ),
                             ),
                             pw.Padding(
-                              padding: const pw.EdgeInsets.all(8),
+                              padding: const pw.EdgeInsets.all(7),
                               child: pw.Text(
                                 'Resultado (t/ha)',
                                 style: pw.TextStyle(
@@ -118,9 +135,27 @@ class BaixarPDF {
                               ),
                             ),
                             pw.Padding(
-                              padding: const pw.EdgeInsets.all(8),
+                              padding: const pw.EdgeInsets.all(7),
                               child: pw.Text(
                                 'K/CTC',
+                                style: pw.TextStyle(
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            pw.Padding(
+                              padding: const pw.EdgeInsets.all(7),
+                              child: pw.Text(
+                                'Plantas',
+                                style: pw.TextStyle(
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            pw.Padding(
+                              padding: const pw.EdgeInsets.all(10),
+                              child: pw.Text(
+                                'Dose por Planta (g/ha)',
                                 style: pw.TextStyle(
                                   fontWeight: pw.FontWeight.bold,
                                 ),
@@ -170,6 +205,26 @@ class BaixarPDF {
                                 padding: const pw.EdgeInsets.all(8),
                                 child: pw.Text(a.kctc),
                               ),
+                              pw.Padding(
+                                padding: const pw.EdgeInsets.all(8),
+                                child: pw.Text(
+                                  a.valorDigitado != null
+                                      ? a.valorDigitado!.toStringAsFixed(2)
+                                      : '-',
+                                ),
+                              ),
+                              pw.Padding(
+                                padding: const pw.EdgeInsets.all(8),
+                                child: pw.Text(
+                                  a.resultadoPersonalizado != null
+                                      ? '${a.resultadoPersonalizado!.toStringAsFixed(2)} g/ha'
+                                      : '-',
+                                  style: pw.TextStyle(
+                                    fontWeight: pw.FontWeight.bold,
+                                    color: PdfColors.blue,
+                                  ),
+                                ),
+                              ),
                             ],
                           );
                         }),
@@ -185,7 +240,11 @@ class BaixarPDF {
     );
 
     await _savePdf(pdf, namePDF);
-
+    showCustomMessage(
+      context,
+      "PDF salvo com sucesso!",
+      type: MessageType.success,
+    );
     print('PDF gerado com sucesso!');
   }
 
@@ -202,7 +261,7 @@ class BaixarPDF {
       final file = File(fullPath);
       await file.writeAsBytes(pdfBytes);
       print('PDF salvo em: $fullPath');
-      // TODO: fazer um provider para poder mostrar mensagem esta baixando, ja baixou e tauz.. 
+      // TODO: fazer um provider para poder mostrar mensagem esta baixando, ja baixou e tauz..
     } else {
       print('Usuário cancelou a escolha da pasta.');
     }

@@ -65,8 +65,8 @@ class _HomeState extends State<Home> {
       setState(() {
         // selectedFileNames = result.files.map((f) => f.name).toList();
         selectedFileNames = result.files
-          .map((f) => p.basenameWithoutExtension(f.name)) // 👈 só o nome
-          .toList();
+            .map((f) => p.basenameWithoutExtension(f.name)) // 👈 só o nome
+            .toList();
         selectedFilePaths = result.files
             .where((f) => f.path != null)
             .map((f) => f.path!)
@@ -270,16 +270,48 @@ class _HomeState extends State<Home> {
                           ],
                         ),
                         const SizedBox(height: 24),
-                        ElevatedButton.icon(
-                          onPressed: handleFileSelect,
-                          icon: const Icon(Icons.file_present),
-                          label: const Text("Escolher Arquivo"),
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 14,
+                        // ElevatedButton.icon(
+                        //   onPressed: handleFileSelect,
+                        //   icon: const Icon(Icons.file_present),
+                        //   label: const Text("Escolher Arquivo"),
+                        //   style: ElevatedButton.styleFrom(
+                        //     padding: const EdgeInsets.symmetric(
+                        //       horizontal: 24,
+                        //       vertical: 14,
+                        //     ),
+                        //     textStyle: const TextStyle(fontSize: 16),
+                        //     backgroundColor: const Color(0xff8f5c30),
+                        //   ),
+                        // ),
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xff8f5c30), Color(0xffdba85e)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
                             ),
-                            textStyle: const TextStyle(fontSize: 16),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: ElevatedButton.icon(
+                            onPressed: handleFileSelect,
+                            icon: const Icon(
+                              Icons.file_present,
+                              color: Colors.white,
+                            ),
+                            label: const Text(
+                              "Escolher Arquivo",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent, // importante
+                              shadowColor:
+                                  Colors.transparent, // remove sombra padrão
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 14,
+                              ),
+                              textStyle: const TextStyle(fontSize: 16),
+                            ),
                           ),
                         ),
                       ],
@@ -387,7 +419,11 @@ class _HomeState extends State<Home> {
                             InkWell(
                               onTap: () {
                                 // Chame aqui a função para salvar o PDF
-                                BaixarPDF().gerarPDF(analyses, fileName);
+                                BaixarPDF().gerarPDF(
+                                  analyses,
+                                  fileName,
+                                  context,
+                                );
                                 // TODO: Fazer aparecer uma notificacao de que esta baixando, baixado ou erro.
                               },
                               child: Container(

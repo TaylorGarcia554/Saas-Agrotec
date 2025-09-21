@@ -1,3 +1,4 @@
+import 'package:agrotec/analiseManual.dart';
 import 'package:agrotec/historico.dart';
 import 'package:agrotec/home.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,12 @@ class Menuhome extends ConsumerStatefulWidget {
 }
 
 class _MenuhomeState extends ConsumerState<Menuhome> {
-
   Widget _buildMenuItem(
-      IconData icon, String? title, int index, bool collapsed) {
+    IconData icon,
+    String? title,
+    int index,
+    bool collapsed,
+  ) {
     final selectedIndex = ref.watch(navigationProvider);
 
     final size = MediaQuery.of(context).size;
@@ -95,8 +99,10 @@ class _MenuhomeState extends ConsumerState<Menuhome> {
         child: AppBar(
           titleSpacing: 0,
           title: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 4.0,
+            ),
             child: Center(
               child: Row(
                 children: [
@@ -135,32 +141,34 @@ class _MenuhomeState extends ConsumerState<Menuhome> {
           //   padding: EdgeInsets.all(size.height * 0.08),
           // child:
           Row(
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeInOut,
-            width: tamanhoTela ? 66 : 180, // alterna entre estreito e largo
-            color: Color(0xff38291a),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 30),
-                _buildMenuItem(Icons.dashboard, "Início", 0, tamanhoTela),
-                _buildMenuItem(
-                    Icons.history, "Historico", 1, tamanhoTela),
-              ],
-            ),
-          ),
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                width: tamanhoTela ? 66 : 180, // alterna entre estreito e largo
+                color: Color(0xff38291a),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 30),
+                    _buildMenuItem(Icons.dashboard, "Início", 0, tamanhoTela),
+                    _buildMenuItem(Icons.calculate, "Manual", 2, tamanhoTela),
+                    // _buildMenuItem(Icons.history, "Historico", 1, tamanhoTela),
+                  ],
+                ),
+              ),
 
-          // conteúdo da página
-          Expanded(
-              child: switch (_selectedIndex) {
-            0 => const Home(),
-            1 => const Historico(),
-            _ => const Home()
-          }),
-        ],
-      ),
+              // conteúdo da página
+              Expanded(
+                child: switch (_selectedIndex) {
+                  0 => const Home(),
+                  1 => const Historico(),
+                  2 => const ManualAnalysisScreen(),
+                  _ => const Home(),
+                },
+              ),
+            ],
+          ),
     );
   }
 }
@@ -173,7 +181,8 @@ class NavigationProvider extends StateNotifier<int> {
   }
 }
 
-final navigationProvider =
-    StateNotifierProvider<NavigationProvider, int>((ref) {
+final navigationProvider = StateNotifierProvider<NavigationProvider, int>((
+  ref,
+) {
   return NavigationProvider();
 });
