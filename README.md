@@ -49,27 +49,6 @@ Ele processa arquivos **PDFs de análises de solo** (pode receber um ou vários 
 
 ---
 
-## 📸 Demonstração  
-
-> Aqui você pode colocar **prints de tela** ou GIFs mostrando:  
-- Upload de PDF  
-- Resultado dos cálculos  
-- Geração do relatório  
-
----
-
-## 📌 Roadmap  
-
-- [x] Upload de múltiplos PDFs  
-- [x] Extração automática de CTC, V% e KCTC  
-- [x] Cálculo de toneladas por hectare e gramas por planta  
-- [x] Exportação em PDF com logo personalizada  
-- [ ] Dashboard online (versão SaaS)  
-- [ ] Controle multiusuário  
-- [ ] Histórico em nuvem  
-
----
-
 ## 📖 Referências  
 
 - **CTC (Capacidade de Troca Catiônica)**: medida da capacidade do solo em reter e trocar cátions essenciais para o desenvolvimento das plantas.  
@@ -81,3 +60,4 @@ Ele processa arquivos **PDFs de análises de solo** (pode receber um ou vários 
 ## 📜 Licença  
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.  
+
